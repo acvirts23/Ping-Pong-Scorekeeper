@@ -5,22 +5,25 @@ const p1Display = document.querySelector('#p1Display');
 const p2Display = document.querySelector('#p2Display');
 const winningScoreSelect = document.querySelector('#playto');
 
-//Creates a canvas element that I can add confetti action to
-const myCanvas = document.createElement('canvas');
-document.body.appendChild(myCanvas);
-//confetti element
-let myConfetti = confetti.create(myCanvas, {
-    resize: true,
-    useWorker: true
-});
-//Settings for my confetti
-myConfetti({
-    particleCount: 100,
-    spread: 360
-    // any other options from the global
-    // confetti function
-});
 
+
+function createConfetti() {
+    //Creates a canvas element that I can add confetti action to
+    const myCanvas = document.createElement('canvas');
+    //Add canvas element to body of page
+    document.body.appendChild(myCanvas);
+    //confetti element
+    let myConfetti = confetti.create(myCanvas, {
+        resize: true,
+        useWorker: true
+    });
+    //Confetti settings
+    confetti({
+        particleCount: 300,
+        spread: 150,
+        ticks: 300,
+    });
+}
 
 
 let p1Score = 0;
@@ -36,9 +39,7 @@ p1Button.addEventListener('click', function () {
         if (p1Score === winningScore) {
             if (p1Score - 1 !== p2Score) {
                 isGameOver = true;
-                confetti({
-                    particleCount: 150
-                });
+                createConfetti();
                 p1Display.classList.add('winner');
                 p2Display.classList.add('loser');
                 p1Button.disabled = true;
@@ -58,9 +59,7 @@ p2Button.addEventListener('click', function () {
         if (p2Score === winningScore) {
             if (p2Score - 1 !== p1Score) {
                 isGameOver = true;
-                confetti({
-                    particleCount: 150
-                });
+                createConfetti();
                 p2Display.classList.add('winner');
                 p1Display.classList.add('loser');
                 p1Button.disabled = true;
@@ -94,4 +93,5 @@ function reset() {
     p2Display.classList.remove('winner', 'loser');
     p1Button.disabled = false;
     p2Button.disabled = false;
+    confetti.reset(); //Clears all confetti
 }
